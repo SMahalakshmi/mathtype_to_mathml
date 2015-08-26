@@ -5,13 +5,16 @@ require_relative "mathtype_to_mathml/mover"
 require_relative "mathtype_to_mathml/char_replacer"
 require "pry"
 
-module MathTypeToMathML
+module MathTypeToMathML 
   class Converter
     def initialize(mathtype)
-      @xslt = Nokogiri::XSLT(File.open("lib/transform.xsl"))
+     
+      @xslt = Nokogiri::XSLT(File.open(File.join(File.dirname(__FILE__), "transform.xsl")))
 
       @mathtype = Mathtype::Converter.new(mathtype).xml.doc
 
+      puts @mathtype
+      
       # Addresses lack of scaning mode in our translator. See "Mover" for more.
       mover = Mover.new(@mathtype)
       mover.move
